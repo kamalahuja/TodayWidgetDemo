@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="TodayMeetingTableViewCell" customModule="MyMeetingToday" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subject" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KPd-Ze-1pu">
+                        <rect key="frame" x="10" y="5" width="300" height="15"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpP-jX-iJI">
+                        <rect key="frame" x="10" y="22" width="246" height="16"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QRG-dL-vO6">
+                        <rect key="frame" x="259" y="22" width="51" height="16"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="xpP-jX-iJI" firstAttribute="top" secondItem="KPd-Ze-1pu" secondAttribute="bottom" constant="2" id="2YF-Je-9QT"/>
+                    <constraint firstItem="KPd-Ze-1pu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="6kA-fQ-s33"/>
+                    <constraint firstItem="QRG-dL-vO6" firstAttribute="top" secondItem="KPd-Ze-1pu" secondAttribute="bottom" constant="2" id="BEx-Ge-xdc"/>
+                    <constraint firstItem="QRG-dL-vO6" firstAttribute="leading" secondItem="xpP-jX-iJI" secondAttribute="trailing" constant="3" id="BWf-lS-lqg"/>
+                    <constraint firstItem="QRG-dL-vO6" firstAttribute="leading" secondItem="xpP-jX-iJI" secondAttribute="trailing" constant="3" id="EhK-cs-DOh"/>
+                    <constraint firstAttribute="trailing" secondItem="KPd-Ze-1pu" secondAttribute="trailing" constant="10" id="FaG-Py-Spp"/>
+                    <constraint firstAttribute="bottom" secondItem="xpP-jX-iJI" secondAttribute="bottom" constant="5" id="LIe-pa-BT9"/>
+                    <constraint firstItem="KPd-Ze-1pu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="ZJX-QT-jew"/>
+                    <constraint firstItem="xpP-jX-iJI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="ZyB-V5-L1V"/>
+                    <constraint firstAttribute="bottom" secondItem="QRG-dL-vO6" secondAttribute="bottom" constant="5" id="n5p-DK-XUy"/>
+                    <constraint firstAttribute="trailing" secondItem="QRG-dL-vO6" secondAttribute="trailing" constant="10" id="uUA-Y6-Qcf"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dateLabel" destination="xpP-jX-iJI" id="rSM-1C-LZ0"/>
+                <outlet property="locationLabel" destination="QRG-dL-vO6" id="oYp-WN-Xof"/>
+                <outlet property="subjectLabel" destination="KPd-Ze-1pu" id="hz9-Ft-Xe3"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

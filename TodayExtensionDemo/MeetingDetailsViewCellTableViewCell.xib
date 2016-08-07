@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MeetingDetailsViewCellTableViewCell" customModule="MyMeetingToday" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ai-NY-qgx">
+                        <rect key="frame" x="13" y="11" width="150" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="ayG-79-5AF"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date And Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rU1-WS-cVk">
+                        <rect key="frame" x="168" y="11" width="164" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htH-af-uF5">
+                        <rect key="frame" x="337" y="11" width="250" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="250" id="sby-V1-xBE"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="htH-af-uF5" firstAttribute="leading" secondItem="rU1-WS-cVk" secondAttribute="trailing" constant="5" id="Hu8-aR-0tN"/>
+                    <constraint firstItem="8Ai-NY-qgx" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Qyo-md-B6u"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="htH-af-uF5" secondAttribute="trailing" constant="5" id="Rlw-fW-Ue7"/>
+                    <constraint firstItem="8Ai-NY-qgx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="ayJ-d5-3hI"/>
+                    <constraint firstItem="8Ai-NY-qgx" firstAttribute="centerY" secondItem="htH-af-uF5" secondAttribute="centerY" id="kQJ-oY-Ufx"/>
+                    <constraint firstItem="rU1-WS-cVk" firstAttribute="leading" secondItem="8Ai-NY-qgx" secondAttribute="trailing" constant="5" id="sqM-CJ-xxf"/>
+                    <constraint firstItem="8Ai-NY-qgx" firstAttribute="centerY" secondItem="rU1-WS-cVk" secondAttribute="centerY" id="wE0-Zv-gok"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dateAndTime" destination="rU1-WS-cVk" id="Xuk-5Q-dRc"/>
+                <outlet property="location" destination="8Ai-NY-qgx" id="AOR-gt-kwJ"/>
+                <outlet property="subject" destination="htH-af-uF5" id="XaR-9U-nla"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
