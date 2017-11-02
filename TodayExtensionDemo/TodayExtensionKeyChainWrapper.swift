@@ -9,27 +9,27 @@
 import Foundation
 
 class TodayExtensionKeyChainWrapper{
-    func getKeyChainItem( serviceName : String, accountName : String) -> NSData? {
-        var returnValue : NSData?;
+    func getKeyChainItem( _ serviceName : String, accountName : String) -> Data? {
+        var returnValue : Data?;
         let retrieveKeyChain : [NSString : AnyObject] = [
             kSecClass : kSecClassGenericPassword,
-            kSecAttrService : serviceName,
-            kSecAttrAccount : accountName,
-            kSecReturnAttributes : true,   // return dictionary in result parameter
-            kSecReturnData : true          // include the password value
+            kSecAttrService : serviceName as AnyObject,
+            kSecAttrAccount : accountName as AnyObject,
+            kSecReturnAttributes : true as AnyObject,   // return dictionary in result parameter
+            kSecReturnData : true as AnyObject          // include the password value
         ]
         var result : AnyObject?
-        let err = SecItemCopyMatching(retrieveKeyChain, &result)
+        let err = SecItemCopyMatching(retrieveKeyChain as CFDictionary, &result)
         if (err == errSecSuccess) {
             // on success cast the result to a dictionary and extract the
             // username and password from the dictionary.
              if let result = result as? [NSString : AnyObject],
                let accountName = result[kSecAttrAccount] as? String,
-                let passwordData = result[kSecValueData] as? NSData {
+                let passwordData = result[kSecValueData] as? Data {
                 print("Account Found \(accountName)")
                 returnValue = passwordData
             }
-            if let result = result as? NSData {
+            if let result = result as? Data {
                 returnValue = result
             }
             
@@ -46,19 +46,19 @@ class TodayExtensionKeyChainWrapper{
         return returnValue;
     }
     
-    func updateKeyChainItem(serviceName: String, accountName : String, updatedData : NSData) -> Bool {
+    func updateKeyChainItem(_ serviceName: String, accountName : String, updatedData : Data) -> Bool {
         
         var isUpdateSuccess : Bool = false
         //Check if keychain already exists
         let retrieveKeyChain : [NSString : AnyObject] = [
             kSecClass : kSecClassGenericPassword,
-            kSecAttrService : serviceName,
-            kSecAttrAccount : accountName,
-            kSecReturnAttributes : true,   // return dictionary in result parameter
-            kSecReturnData : true          // include the password value
+            kSecAttrService : serviceName as AnyObject,
+            kSecAttrAccount : accountName as AnyObject,
+            kSecReturnAttributes : true as AnyObject,   // return dictionary in result parameter
+            kSecReturnData : true as AnyObject          // include the password value
         ]
         var result : AnyObject?
-        let err = SecItemCopyMatching(retrieveKeyChain, &result)
+        let err = SecItemCopyMatching(retrieveKeyChain as CFDictionary, &result)
         if (err == errSecSuccess) {
             //If keychain Item exist then update it. We print on console for debugging
 //            if let result = result as? [NSString : AnyObject],
@@ -75,10 +75,10 @@ class TodayExtensionKeyChainWrapper{
             let queryToBeUpdated = NSDictionary(objects: array1ToBeUpdated as [AnyObject], forKeys: array2ToBeUpdated as! [NSCopying])
             let retrieveKeyChain : [NSString : AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
-                kSecAttrService : serviceName,
-                kSecAttrAccount : accountName
+                kSecAttrService : serviceName as AnyObject,
+                kSecAttrAccount : accountName as AnyObject
             ]
-            let resultUpdate =  SecItemUpdate(retrieveKeyChain as CFDictionaryRef, queryToBeUpdated as CFDictionaryRef)
+            let resultUpdate =  SecItemUpdate(retrieveKeyChain as CFDictionary, queryToBeUpdated as CFDictionary)
             
             //This is for debugging
             print(resultUpdate)
@@ -87,15 +87,15 @@ class TodayExtensionKeyChainWrapper{
         } else if (err == errSecItemNotFound) {
             let addQuery : [NSString : AnyObject] = [
                 kSecClass : kSecClassGenericPassword,
-                kSecAttrService : serviceName,
-                kSecAttrAccount : accountName,
-                kSecValueData : updatedData
+                kSecAttrService : serviceName as AnyObject,
+                kSecAttrAccount : accountName as AnyObject,
+                kSecValueData : updatedData as AnyObject
             ]
             // if not found
             isUpdateSuccess = false
             print("Keychain item does not exist. Trying to Add now")
             var addResult : AnyObject?
-            let addErr = SecItemAdd(addQuery, &addResult)
+            let addErr = SecItemAdd(addQuery as CFDictionary, &addResult)
             if (addErr == errSecSuccess) {
                     print("Keychain item does not exist. We added Now")
                 isUpdateSuccess = true

@@ -9,7 +9,7 @@
 import UIKit
 import NotificationCenter
 
-class TodayViewController: UIViewController, NCWidgetProviding, NSURLSessionDelegate, UITableViewDataSource, UITableViewDelegate {
+class TodayViewController: UIViewController, NCWidgetProviding, URLSessionDelegate, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var todaysWidgetTableView: UITableView!
     var todayWidgetDataSource : [(location: String, dateTime : String, subject : String)] = []
@@ -23,23 +23,23 @@ class TodayViewController: UIViewController, NCWidgetProviding, NSURLSessionDele
         
        todaysWidgetTableView.dataSource = self
         todaysWidgetTableView.delegate = self
-        todaysWidgetTableView.scrollEnabled = false
+        todaysWidgetTableView.isScrollEnabled = false
         self.initialDataLoadForWIdget()
         self.todaysWidgetTableView.reloadData()
         self.preferredContentSize = self.todaysWidgetTableView.contentSize
-        todaysWidgetTableView.registerNib(UINib(nibName: "TodayMeetingTableViewCell", bundle:nil), forCellReuseIdentifier: "test")
+        todaysWidgetTableView.register(UINib(nibName: "TodayMeetingTableViewCell", bundle:nil), forCellReuseIdentifier: "test")
     }
     
-    func widgetMarginInsetsForProposedMarginInsets
-        (defaultMarginInsets: UIEdgeInsets) -> (UIEdgeInsets) {
-        return UIEdgeInsetsZero
+    func widgetMarginInsets
+        (forProposedMarginInsets defaultMarginInsets: UIEdgeInsets) -> (UIEdgeInsets) {
+        return UIEdgeInsets.zero
     }
     
     func initialDataLoadForWIdget () {
         if  self.todayWidgetDataSource.count == 0 {
-            let myMeetingData : NSData? = todayKeychainWrapper.getKeyChainItem("MyService", accountName: "Some account")
+            let myMeetingData : Data? = todayKeychainWrapper.getKeyChainItem("MyService", accountName: "Some account")
             NSKeyedUnarchiver.setClass(TodayExtensionMeetingObject.self, forClassName: "TodayExtensionDemo.TodayExtensionMeetingObject")
-            if let todayExtensionMeetingObject : TodayExtensionMeetingObject = NSKeyedUnarchiver.unarchiveObjectWithData(myMeetingData!) as?
+            if let todayExtensionMeetingObject : TodayExtensionMeetingObject = NSKeyedUnarchiver.unarchiveObject(with: myMeetingData!) as?
                 TodayExtensionMeetingObject {
                 let meetingSummaryTuple : (location: String, dateTime : String, subject : String) = (todayExtensionMeetingObject.meetingTuple!.location!, todayExtensionMeetingObject.meetingTuple!.dateTime!, todayExtensionMeetingObject.meetingTuple!.subject!)
                 print(todayExtensionMeetingObject)
@@ -48,7 +48,7 @@ class TodayViewController: UIViewController, NCWidgetProviding, NSURLSessionDele
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
         print("viewDidAppear")
        self.initialDataLoadForWIdget()
@@ -61,35 +61,35 @@ class TodayViewController: UIViewController, NCWidgetProviding, NSURLSessionDele
         // Dispose of any resources that can be recreated.
     }
     
-    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
+    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         
         // Perform any setup necessary in order to update the view.
-        let meetingSubmitURL : NSURL = NSURL(string: "http://192.168.1.143:3000/meetings/")!
-        let sessionConfiguration : NSURLSessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        let defaultSession : NSURLSession = NSURLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: nil)
+        let meetingSubmitURL : URL = URL(string: "http://192.168.1.143:3000/meetings/")!
+        let sessionConfiguration : URLSessionConfiguration = URLSessionConfiguration.default
+        let defaultSession : Foundation.URLSession = Foundation.URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: nil)
         
-        let dataTask : NSURLSessionDataTask = defaultSession.dataTaskWithURL(meetingSubmitURL, completionHandler: {
+        let dataTask : URLSessionDataTask = defaultSession.dataTask(with: meetingSubmitURL, completionHandler: {
             (data, response, error) in
             if let errorLocal = error {
                 print(errorLocal.localizedDescription)
-            } else if let httpResponse = response as? NSHTTPURLResponse {
+            } else if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
                     print(httpResponse)
                     var meetingResultDicionaryArray : [NSDictionary]?
                     do {
-                        try   meetingResultDicionaryArray  = (NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers) as! [NSDictionary])
+                        try   meetingResultDicionaryArray  = (JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as! [NSDictionary])
                         self.todayWidgetDataSource = []
                         for meetingDict in meetingResultDicionaryArray! {
-                            let meetigTuple :    (location: String, dateTime : String, subject : String) = (location : meetingDict.objectForKey("location") as! String, dateTime : meetingDict.objectForKey("dateTime") as! String, subject  : meetingDict.objectForKey("Subject") as! String )
+                            let meetigTuple :    (location: String, dateTime : String, subject : String) = (location : meetingDict.object(forKey: "location") as! String, dateTime : meetingDict.object(forKey: "dateTime") as! String, subject  : meetingDict.object(forKey: "Subject") as! String )
                             self.todayWidgetDataSource += [meetigTuple]
                         }
                         
                     } catch {
                         
                     }
-                    let testString : NSString = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+                    let testString : NSString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)!
                     print(testString)
-                    completionHandler(NCUpdateResult.NewData)
+                    completionHandler(NCUpdateResult.newData)
                 } else {
                     print("status code is : \(httpResponse.statusCode)")
                 }
@@ -98,35 +98,35 @@ class TodayViewController: UIViewController, NCWidgetProviding, NSURLSessionDele
         dataTask.resume()
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let meetingDetails : (location: String, dateTime : String, subject : String)  = todayWidgetDataSource[indexPath.row]
         var todaysWidgetTableViewCell : TodayMeetingTableViewCell
-        if todaysWidgetTableView.dequeueReusableCellWithIdentifier("test") as? TodayMeetingTableViewCell == nil {
+        if todaysWidgetTableView.dequeueReusableCell(withIdentifier: "test") as? TodayMeetingTableViewCell == nil {
             todaysWidgetTableViewCell = TodayMeetingTableViewCell();
         } else {
-            todaysWidgetTableViewCell = todaysWidgetTableView.dequeueReusableCellWithIdentifier("test") as!TodayMeetingTableViewCell
+            todaysWidgetTableViewCell = todaysWidgetTableView.dequeueReusableCell(withIdentifier: "test") as!TodayMeetingTableViewCell
         }
         todaysWidgetTableViewCell.subjectLabel.text = meetingDetails.subject
         todaysWidgetTableViewCell.dateLabel.text = meetingDetails.dateTime
         todaysWidgetTableViewCell.locationLabel.text = meetingDetails.location
-        todaysWidgetTableViewCell.selectionStyle = UITableViewCellSelectionStyle.None
+        todaysWidgetTableViewCell.selectionStyle = UITableViewCellSelectionStyle.none
         return todaysWidgetTableViewCell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let url : NSURL = NSURL(string: "todayextension://com.todayExtension.demo")!
-        self.extensionContext?.openURL(url, completionHandler: nil)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let url : URL = URL(string: "todayextension://com.todayExtension.demo")!
+        self.extensionContext?.open(url, completionHandler: nil)
     }
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todayWidgetDataSource.count;
     }
     
     
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
+    func URLSession(_ session: Foundation.URLSession, task: URLSessionTask, didReceiveChallenge challenge: URLAuthenticationChallenge, completionHandler: (Foundation.URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
             if challenge.protectionSpace.host == "192.168.1.143" || challenge.protectionSpace.host == "localhost" {
-                let credential : NSURLCredential = NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!)
-                completionHandler(NSURLSessionAuthChallengeDisposition.UseCredential, credential)
+                let credential : URLCredential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+                completionHandler(Foundation.URLSession.AuthChallengeDisposition.useCredential, credential)
             }
         }
     }
